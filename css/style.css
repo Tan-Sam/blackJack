@@ -1,0 +1,17 @@
+.wrapper{
+  /*border: 1px solid red;*/
+  background-color: red;
+  /*display: inline-block;*/
+}
+
+.card {
+  display: inline-block;
+}
+
+.card:nth-child(odd) {
+  background-color: black;
+}
+
+.card:nth-child(even) {
+  background-color: gray;
+}
