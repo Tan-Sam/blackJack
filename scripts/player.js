@@ -7,6 +7,7 @@ function Player(){
   this.playerToTheRight = null;
   this.currentGameBetAmount;
   this.isMyTurn = false;
+  this.hitBlackjack = false;
 }
 
 Player.prototype.draw = function(){
@@ -16,9 +17,21 @@ Player.prototype.draw = function(){
   var cardCounts = this.hand.length
   if (cardCounts == 2) {
 
+    var aceCardFound = this.hand.find(function(elem){return elem.isAce();});
+
+    if (aceCardFound) {
+      var faceCardFound = this.hand.find(function(elem){return elem.isFaceCard();})  ;
+      if (faceCardFound) {
+        this.hitBlackjack = true;
+      }
+    }
   }
   else if (cardCounts === 3) { // triple 7 check
-
+    if (this.hand[0].getNumericalValue() === 7 &&
+        this.hand[1].getNumericalValue() === 7 &&
+        this.hand[2].getNumericalValue() === 7) {
+          this.hitBlackjack = true; //  might need to change to superJackpot or soemthing.
+    }
   }
   else if (cardCounts == 5) {
     //   add up to see if more than 21
@@ -36,6 +49,10 @@ Player.prototype.draw = function(){
       else {
         totalValue += cardValue;
       }
+    }
+
+    if (totalValue > 21) {
+
     }
   }
 }
