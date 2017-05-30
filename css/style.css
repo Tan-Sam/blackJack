@@ -1,17 +1,26 @@
 .wrapper{
   /*border: 1px solid red;*/
-  background-color: red;
+  /*background-color: red;*/
   /*display: inline-block;*/
 }
 
 .card {
   display: inline-block;
+  margin: auto 1em;
 }
 
-.card:nth-child(odd) {
+.bankerDiv {
+  background-color: red;
+}
+
+.playerDiv {
   background-color: black;
 }
+/*
+.hidden {
+  display: none;
+}*/
 
-.card:nth-child(even) {
-  background-color: gray;
+.wrapper > div{
+  margin: 5em;
 }

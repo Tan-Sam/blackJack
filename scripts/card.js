@@ -1,9 +1,17 @@
-function Card(index, cardName){
+function Card(index, cardType, cardSymbol){
+  // default value of cards. e.g. 1, 2, 3..
   this.defaultCardIndex = index;
-  this.cardName = cardName;
+  this.cardName = cardType+' of '+ cardSymbol;
   this.numericalValue = null;
-  this.img;
   this.deckIndex = index;
+  this.cardType = cardType;
+  this.cardSymbol = cardSymbol;
+  
+}
+
+Card.prototype.cardSVGname = function(){
+  return (this.cardType.match(/(\d{1,2}|\w)/g)[0] + this.cardSymbol.substr(0,1)).toUpperCase();
+  //  cardType of number cannot subString
 }
 
 Card.prototype.setDeckIndex = function(deckIndex){
@@ -48,14 +56,15 @@ function initDeck(){
   //  populate Ace & it's symbols.
   var card = faceCardsArray[0];
   for(var i=0; i<symbolArray.length; i++){
-    var newCard = new Card(deckIndex++, card+' of '+ symbolArray[i]);
+    var newCard = new Card(deckIndex++, card, symbolArray[i]);
     deck.push(newCard);
   }
 
   //  populate Numbers & it's symbols.
   for (var i = 0; i < numbersArray.length; i++) {
     for(var j=0; j<symbolArray.length; j++){
-      var newCard = new Card(deckIndex++, numbersArray[i]+' of '+ symbolArray[j]);
+      //                                               toString() because of SVG
+      var newCard = new Card(deckIndex++, numbersArray[i].toString(), symbolArray[j]);
       deck.push(newCard);
     }
   }
@@ -63,7 +72,7 @@ function initDeck(){
   //  populate face cards & it's symbols.
   for (var i = 1; i < faceCardsArray.length; i++) {
     for(var j = 0; j < symbolArray.length; j++){
-      var newCard = new Card(deckIndex++, faceCardsArray[i]+' of '+ symbolArray[j]);
+      var newCard = new Card(deckIndex++, faceCardsArray[i], symbolArray[j]);
       deck.push(newCard);
     }
   }
