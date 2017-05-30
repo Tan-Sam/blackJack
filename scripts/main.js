@@ -44,7 +44,7 @@ function drawCard(e){
 }
 
 document.addEventListener("DOMContentLoaded", ()=>{
-  setTimeout(someFunction, 800);
+  setTimeout(someFunction, 1);
   document.getElementsByClassName('playerDiv')[0].addEventListener('click', drawCard);
   document.getElementsByClassName('bankerDiv')[0].addEventListener('click', drawCard);
 });

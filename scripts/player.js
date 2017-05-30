@@ -10,19 +10,25 @@ function Player(){
   this.hitBlackjack = false;
 }
 
-Player.prototype.draw = function(){
-  this.hand = this.hand.concat(deck.pop());
-
+Player.prototype.checkHand = function(){
   // check for jackpots (e.g blackJack, etc..)
-  var cardCounts = this.hand.length
-  if (cardCounts == 2) {
+  var cardCounts = this.hand.length;
 
-    var aceCardFound = this.hand.find(function(elem){return elem.isAce();});
-
+  if (cardCounts === 2) {
+    var aceCardFound = this.hand.find((elem)=>{return elem.isAce();});
     if (aceCardFound) {
-      var faceCardFound = this.hand.find(function(elem){return elem.isFaceCard();})  ;
-      if (faceCardFound) {
-        this.hitBlackjack = true;
+
+      var aceCardIndex = this.hand.indexOf(aceCardFound);
+
+      //  https://stackoverflow.com/a/4084058/1699071
+      var theOtherCardIndex = 1 - aceCardIndex;
+
+      var otherCard = this.hand[theOtherCardIndex];
+
+      if (otherCard.isAce()||
+          otherCard.getNumericalValue() === 10 ) {
+            this.hitBlackjack = true;
+            alert(  this.name+' blackJack!');
       }
     }
   }
@@ -33,8 +39,15 @@ Player.prototype.draw = function(){
           this.hitBlackjack = true; //  might need to change to superJackpot or soemthing.
     }
   }
-  else if (cardCounts == 5) {
+  else if (cardCounts === 5) {
     //   add up to see if more than 21
+    // get all the ace cards. take them value as small as possible.
+
+    // add up all them non ace cards
+
+    // total them value
+
+
   }
 
   // check for gameFail
@@ -55,6 +68,11 @@ Player.prototype.draw = function(){
 
     }
   }
+}
+
+Player.prototype.draw = function(){
+  this.hand = this.hand.concat(deck.pop());
+  this.checkHand();
 }
 
 Player.prototype.collectWinnings = function(){
