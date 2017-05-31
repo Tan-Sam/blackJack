@@ -1,6 +1,6 @@
 function Player(){
   this.name;
-  this.hand = [];         // cards on hand
+  this.hand =  new Hand(); //[];         // cards on hand
   this.purseSize = 300;    //
 
   // this.inGameStatus;
@@ -40,10 +40,7 @@ Player.prototype.setTurnCompleted = function(){
 }
 
 Player.prototype.drawCard = function(){
-  this.hand = this.hand.concat(deck.pop());
-  if (this.hand.length >= 2) {
-      this.checkHand();
-  }
+  this.hand.drawCard();
 }
 
 Player.prototype.collectWinnings = function(){

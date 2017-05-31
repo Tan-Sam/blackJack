@@ -1,5 +1,27 @@
-Player.prototype.checkHand = function(){
-  var cardCounts = this.hand.length;
+var Hand = function(){
+  this.cards = [];
+
+}
+
+Hand.prototype.drawCard = function(){
+  this.cards.concat(deck.pop());
+}
+
+Hand.prototype.getACEs = function(){
+  var aces = this.cards.filter((elem)=>{ return elem.isAce(); });
+  return (aces.length === 0)? false : aces;
+}
+
+Hand.prototype.getNon_aces = function(){
+  this.cards.filter((elem)=>{ return ! elem.isAce(); });
+}
+
+Hand.prototype.lastCard = function(){
+  return this.cards[this.cards.length-1];
+}
+
+Hand.prototype.checkBlackJack = function(){
+  var cardCounts = this.cards.length;
 
   if (cardCounts === 2) {
     this.checkFor_BlackJack();
@@ -16,13 +38,13 @@ Player.prototype.checkHand = function(){
 }
 
 //  tested ok. 1 win, multiple losses.
-Player.prototype.evaluate_5cards = function(){
+Hand.prototype.evaluate_5cards = function(){
   //   add up to see if more than 21
   // get all the ace cards. take them value as small as possible.
 
   debugger;
   var totalValue = 0;
-  var acesFound = this.hand.filter((e)=>{ return e.isAce()});
+  var acesFound = this.cards.filter((e)=>{ return e.isAce()});
 
   //  acesFound doesn't return null.
   //  Hence cannot use if to evaluate.
@@ -30,7 +52,7 @@ Player.prototype.evaluate_5cards = function(){
 
   // add up all them non ace cards
   totalValue +=
-  this.hand.reduce((accum, elem)=>{
+  this.cards.reduce((accum, elem)=>{
     return elem.isAce()? accum : (accum + elem.getNumericalValue());}, 0);
 
   // total them value
@@ -45,10 +67,12 @@ Player.prototype.evaluate_5cards = function(){
   }
 }
 
-Player.prototype.evaluateTriple7 = function(){
-  if (this.hand[0].getNumericalValue() === 7 &&
-      this.hand[1].getNumericalValue() === 7 &&
-      this.hand[2].getNumericalValue() === 7) {
+Hand.prototype.evaluateTriple7 = function(){
+  var cards = this.cards;
+
+  if (cards[0].getNumericalValue() === 7 &&
+      cards[1].getNumericalValue() === 7 &&
+      cards[2].getNumericalValue() === 7) {
         this.isHitBlackJack = true; //  might need to change to superJackpot or soemthing.
       }
 }
@@ -56,7 +80,7 @@ Player.prototype.evaluateTriple7 = function(){
 //   tested working multiple times.
 //    but there was 1 fluke, player had 1 Ace & 1 4.
 //      but the blackJack alert came out. kiv..
-Player.prototype.checkFor_BlackJack = function(){
+Hand.prototype.checkFor_BlackJack = function(){
   var aceCardFound = this.hand.find((elem)=>{return elem.isAce();});
   if (aceCardFound) {
 
@@ -75,26 +99,76 @@ Player.prototype.checkFor_BlackJack = function(){
   }
 }
 
-Player.prototype.checkCardsOnHandValue = function(){
-
+Hand.prototype.getCardsOnHandValue = function(){
   var totalValue = 0;
+  var acesFound = this.hand.getACEs();
+  var nonACEs = this.hand.getNon_aces();
 
-  var aces = this.hand.filter((elem)=>{
-      return elem.isAce();
-  });
+  var nonACEsValue = nonACEs.reduce((accum, elem)=>{
+                        return accum + elem.getNumericalValue();
+                      },0);
 
-  var nonAces = this.hand.filter((elem)=>{
-      return !elem.isAce();
-  });
-
-  totalValue = nonAces.reduce((accum, elem)=>{
-    return accum + elem.getNumericalValue();
-  },0);
-  if (totalValue > 21) {
-
+  if (!acesFound) {
+      return nonACEsValue;
   }
-}
-
-Player.prototype.lastCard = function(){
-  return this.hand[this.hand.length-1];
+  else {  //  deduced based on excel layout
+    switch (acesFound.length) {
+      case 1:
+        {
+          if (nonACEsValue <= 10) {
+            return acesFound[0][1] + nonACEsValue;  // 11 + nonACEsValue
+          }
+          else
+            return acesFound[0][0] + nonACEsValue;  // 1 + nonACEsValue
+          }
+        }
+      case 2:
+        {
+          if (nonACEsValue <= 9) {
+            return acesFound[0][1] + // 11 +
+                   acesFound[1][0] + // 01 +
+                   nonACEsValue;    // + nonACEsValue
+          }
+          else
+            return acesFound[0][0] + // 01 +
+                   acesFound[1][0] + // 01 +
+                   nonACEsValue;  // + nonACEsValue
+          }
+        }
+      case 3:
+        {
+          if (nonACEsValue <= 8) {
+            return acesFound[0][1] + // 11 +
+                   acesFound[1][0] + // 01 +
+                   acesFound[2][0] + // 01 +
+                   nonACEsValue;    //  + nonACEsValue
+          }
+          else
+          return acesFound[0][0] + // 01 +
+                 acesFound[1][0] + // 01 +
+                 acesFound[2][0] + // 01 +
+                 nonACEsValue;    //  + nonACEsValue
+          }
+        }
+        case 3:
+          {
+            if (nonACEsValue <= 7) {
+              return acesFound[0][1] + // 11 +
+                     acesFound[1][0] + // 01 +
+                     acesFound[2][0] + // 01 +
+                     acesFound[2][0] + // 01 +
+                     nonACEsValue;    //  + nonACEsValue
+            }
+            else
+            return acesFound[0][0] + // 01 +
+                   acesFound[1][0] + // 01 +
+                   acesFound[2][0] + // 01 +
+                   acesFound[2][0] + // 01 +
+                   nonACEsValue;    //  + nonACEsValue
+            }
+          }
+      default:
+        break;
+    }
+  }
 }

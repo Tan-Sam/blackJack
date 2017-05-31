@@ -7,17 +7,14 @@ function Card(index, cardType, cardSymbol) {
   this.cardName = cardType + ' of ' + cardSymbol;
 
   //  position in deck. e.g. '0' -eq bottom of deck. '51' -eq top of deck
-  this.deckIndex = index;
+  // this.deckIndex = index;    unused.
 
   //  Ace --> King
   this.cardType = cardType;
 
   //      ♠ ♥ ♣ ♦
   this.cardSymbol = cardSymbol;
-
-  // console.log(this.cardSVGname());
 }
-
 
 //    tested working
 Card.prototype.imgPath = function(){
@@ -42,14 +39,9 @@ Card.prototype.isNumeric = function() {
 
 // returns the name of card image(.svg)
 Card.prototype.cardSVGname = function() {
-
   //  match numeric 1 or 2 digit(s) or AJQK.
   return (this.cardType.match(/(\d{1,2}|[ajqk])/gi)[0] +
     this.cardSymbol.substr(0, 1)).toUpperCase(); // sample 2H--> Two Of hearts
-}
-
-Card.prototype.setDeckIndex = function(deckIndex) {
-  this.deckIndex = deckIndex;
 }
 
 const aceNumericValues = [1, 11];
@@ -84,8 +76,6 @@ function initNumbersArray() {
 }
 
 function initDeck() {
-  var deckIndex = 0;
-
   //  populate Ace. Passing array as param as it's method
   //  is same as numerals & face.
   var aceCard = faceCardsArray.slice(0, 1); //  -eq [Ace] only
@@ -115,30 +105,4 @@ function pushArrayIntoDeck(arrToPush) {
   } else {
     throw new Exception("Invalid array in pushArrayIntoDeck(sp) method.");
   }
-}
-
-
-
-
-
-
-
-
-
-var deck = [];
-
-//  tested working
-Array.prototype.shuffle = function() {
-  let m = this.length,
-    i;
-  while (m) {
-    i = (Math.random() * m--) >>> 0;
-    [this[m], this[i]] = [this[i], this[m]];
-  }
-  return this;
-}
-
-//  tested working
-Array.prototype.cut = function(itemsToSliceFromTop) {
-  return this.splice(itemsToSliceFromTop).concat(this);
 }

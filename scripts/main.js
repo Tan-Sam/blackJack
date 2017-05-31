@@ -1,4 +1,5 @@
 
+var deck = [];
 //  bankers push last
 var playersArray = [];
 
@@ -87,7 +88,7 @@ function drawCardAndDisplay(playerIndex){
   newDiv.classList.add('card');
 
   var newImg = document.createElement('img');
-  newImg.src = tPlayer.lastCard().imgPath();
+  newImg.src = tPlayer.hand.lastCard().imgPath();
 
   newDiv.appendChild(newImg);
   tPlayerDiv.appendChild(newDiv);
