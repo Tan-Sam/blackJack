@@ -1,3 +1,6 @@
+const cardTemplateName = "../Vector-Playing-Cards/cards-svg/{{cardName}}.svg";
+const cardNameReplacer = /{{cardName}}/;
+
 function Card(index, cardType, cardSymbol) {
   // default value of cards. e.g. AceOfSpade -eq 0, AceOfHearts -eq 1, KingofDiamonds -eq 51..
   this.defaultCardIndex = index;
@@ -13,6 +16,16 @@ function Card(index, cardType, cardSymbol) {
   this.cardSymbol = cardSymbol;
 
   // console.log(this.cardSVGname());
+}
+
+
+//    tested working
+Card.prototype.imgPath = function(){
+  return cardTemplateName.replace(cardNameReplacer, this.cardSVGname());
+}
+
+Card.prototype.print = function(){
+  console.log(this.cardName);
 }
 
 Card.prototype.isFaceCard = function() {
@@ -75,14 +88,15 @@ function initDeck() {
 
   //  populate Ace. Passing array as param as it's method
   //  is same as numerals & face.
-  var aceCard = faceCardsArray.slice(0, 1);
+  var aceCard = faceCardsArray.slice(0, 1); //  -eq [Ace] only
   pushArrayIntoDeck(aceCard);
 
   //  populate Numbers.
+  initNumbersArray();
   pushArrayIntoDeck(numbersArray);
 
   //  populate face cards.
-  pushArrayIntoDeck(faceCardsArray.slice(1)); // slice() -eq omit Ace
+  pushArrayIntoDeck(faceCardsArray.slice(1)); // slice(1) -eq omit Ace
 
   deck = deck.shuffle();
   // deck = deck.cut(4);
@@ -103,6 +117,14 @@ function pushArrayIntoDeck(arrToPush) {
   }
 }
 
+
+
+
+
+
+
+
+
 var deck = [];
 
 //  tested working
@@ -117,6 +139,6 @@ Array.prototype.shuffle = function() {
 }
 
 //  tested working
-Array.prototype.cut = function(cardsToSliceFromTop) {
-  return this.splice(cardsToSliceFromTop).concat(this);
+Array.prototype.cut = function(itemsToSliceFromTop) {
+  return this.splice(itemsToSliceFromTop).concat(this);
 }
