@@ -1,19 +1,25 @@
 function Hand(parentObj) {
   this.cards = [];
   this.parent = parentObj;
-  this.bomb = false;
 }
 
 Hand.prototype.drawCard = function() {
   var result = false;
   var cards = this.cards.length;
   var cardValues = this.getCardsOnHandValue();
+
   if (cards < 3 ||
       cardValues < 21) {
         this.cards.push(deck.pop());
         result = true;
-        if (this.cards.length === 2) {
+
+        var newCardLength = this.cards.length;
+
+        if (newCardLength === 2) {
           this.checkFor_BlackJack();
+        }
+        else if (newCardLength === 5) {
+          this.evaluate_5cards();
         }
   }
   else if (cards === 5){
@@ -23,12 +29,9 @@ Hand.prototype.drawCard = function() {
     alert('your already at max points: 21.');
   }
   else if (cardValues > 21) {
-    alert('Already bomb.');
+    alert('Already bomb:\t' + cardValues + ' points.');
   }
   return result;
-//Go2wo:
-  //  cancel current players turn.
-  // window.dispatchEvent(new KeyboardEvent('keyup',{'key':'Escape'}));
 }
 
 Hand.prototype.getACEs = function() {
@@ -72,10 +75,9 @@ Hand.prototype.evaluate_5cards = function() {
   // get all the ace cards. take them value as small as possible.
 
   var totalValue = 0;
-  var acesFound = this.getACEs(); //this.cards.filter((e)=>{ return e.isAce()});
+  var acesFound = this.getACEs();
 
-  //  acesFound doesn't return null.
-  //  Hence cannot use if to evaluate.
+  //  acesFound returns false if non found. Array if found.
   totalValue += acesFound.length; // each ace value is 1..
 
   // add up all them non ace cards
@@ -84,13 +86,16 @@ Hand.prototype.evaluate_5cards = function() {
       return elem.isAce() ? accum : (accum + elem.getNumericalValue());
     }, 0);
 
+    var userMsg;
   // total them value
   if (totalValue <= 21) {
-    // do something
+    //  do something
     //  reveal cards or something.
-    console.log('You win! 5 cards less than 21');
+    userMsg = 'You win! 5 cards less than 21.\n'+'Your total points:\t' + totalValue;
+    defaultAlertCaller(userMsg);
   } else {
-    console.log('5 cards over 21: ' + totalValue + ' points');
+    userMsg = '5 cards over 21:\t' + totalValue + ' points'
+    defaultAlertCaller(userMsg);
     this.cardPointsOverLimit = true;
   }
 }
@@ -102,6 +107,10 @@ Hand.prototype.evaluateTriple7 = function() {
     cards[1].getNumericalValue() === 7 &&
     cards[2].getNumericalValue() === 7) {
     this.isHitBlackJack = true; //  might need to change to superJackpot or soemthing.
+    defaultAlertCaller('Triple 7 hit!\n' +
+                        cards[0].cardName + '+\n' +
+                        cards[1].cardName + '+\n' +
+                        cards[2].cardName);
   }
 }
 
@@ -110,9 +119,11 @@ Hand.prototype.evaluateTriple7 = function() {
 //      but the blackJack alert came out. kiv..
 Hand.prototype.checkFor_BlackJack = function() {
 
-  if (this.cards.length != 2) {
+  var noOfCards = this.cards.length;
+  if (noOfCards != 2) {
     for (var i = 0; i < 10; i++) {
-      console.log('invalid cards on hand to check for blackjack!!');
+      console.log('invalid cards on hand to check for blackjack!!:\n '+
+                   'Cards on hand: ' + noOfCards);
     }
     return;
   }
@@ -129,18 +140,16 @@ Hand.prototype.checkFor_BlackJack = function() {
 
     if (success) {
       this.isHitBlackJack = true;
-      setTimeout(()=>{alert(this.parent.name + ' blackJack!');},450);
+      defaultAlertCaller(this.parent.name + ' blackJack!');
     }
   }
 }
 
 Hand.prototype.getCardsOnHandValue = function() {
-
   if (this.cards.length === 0) {
     return 0;
   }
 
-  // var totalValue = 0;
   var acesFound = this.getACEs();
   var nonACEsFound = this.getNon_aces();
   var nonACEsValue = 0;

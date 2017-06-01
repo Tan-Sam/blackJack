@@ -33,6 +33,7 @@ Player.prototype.setTurnCompleted = function(){
   }
   else {
     console.log('No other players. Conclude game.');
+    alert('No other players. Conclude game.');
   }
 }
 

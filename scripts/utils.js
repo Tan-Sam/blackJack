@@ -13,3 +13,11 @@ Array.prototype.shuffle = function() {
 Array.prototype.cut = function(itemsToSliceFromTop) {
   return this.splice(itemsToSliceFromTop).concat(this);
 }
+
+
+function defaultAlertCaller(message){
+  setTimeout(()=>{
+    alert(message);
+    console.log(message);
+  },450);  //  give time for cards to render.
+}

@@ -6,37 +6,44 @@
 }
 
 body {
-  background-image: url('../resources/background.png');
+  /*background-image: url('../resources/background.png');*/
+  background: url('../resources/background.png');
+  /*no-repeat*/
+  /*background-size: cover;*/
 }
 
 .card {
   display: inline-block;
+
   margin: auto 1em;
 }
 
-
+div.players {
+  /*width: 95%*/
+}
 
 .bankerDiv {
-  border-radius: 1%;
+
+  border-radius: 10px;
   background: red; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(35deg,
                               transparent,
-                              rgba(0,0,255,0.35),
+                              rgba(0,0,255,0.19),
                               transparent,
                               rgba(0,0,255,0.15)); /* For Safari 5.1 to 6.0 */
   background: -o-linear-gradient(35deg,
                               transparent,
-                              rgba(0,0,255,0.35),
+                              rgba(0,0,255,0.19),
                               transparent,
                               rgba(0,0,255,0.15)); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(35deg,
                               transparent,
-                              rgba(0,0,255,0.35),
+                              rgba(0,0,255,0.19),
                               transparent,
                               rgba(0,0,255,0.15)); /* For Firefox 3.6 to 15 */
   background: linear-gradient(35deg,
                               transparent,
-                              rgba(0,0,255,0.35),
+                              rgba(0,0,255,0.19),
                               transparent,
                               rgba(0,0,255,0.15)); /* Standard syntax (must be last) */
   padding-top: 0.8%;
@@ -44,10 +51,10 @@ body {
 }
 
 .playerDiv {
-  display: flex;
+
   padding-top: 0.8%;
   padding-bottom: 0.45%;
-  border-radius: 1%;
+  border-radius: 20px;
   background: crimson; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(35deg,
                               transparent,
