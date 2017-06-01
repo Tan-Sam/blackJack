@@ -2,6 +2,11 @@
   /*border: 1px solid red;*/
   /*background-color: red;*/
   /*display: inline-block;*/
+
+}
+
+body {
+  background-image: url('../resources/background.png');
 }
 
 .card {
@@ -9,12 +14,61 @@
   margin: auto 1em;
 }
 
+
+
 .bankerDiv {
-  background-color: red;
+  border-radius: 1%;
+  background: red; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(35deg,
+                              transparent,
+                              rgba(0,0,255,0.35),
+                              transparent,
+                              rgba(0,0,255,0.15)); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(35deg,
+                              transparent,
+                              rgba(0,0,255,0.35),
+                              transparent,
+                              rgba(0,0,255,0.15)); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(35deg,
+                              transparent,
+                              rgba(0,0,255,0.35),
+                              transparent,
+                              rgba(0,0,255,0.15)); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(35deg,
+                              transparent,
+                              rgba(0,0,255,0.35),
+                              transparent,
+                              rgba(0,0,255,0.15)); /* Standard syntax (must be last) */
+  padding-top: 0.8%;
+  padding-bottom: 0.45%;
 }
 
 .playerDiv {
-  background-color: black;
+  display: flex;
+  padding-top: 0.8%;
+  padding-bottom: 0.45%;
+  border-radius: 1%;
+  background: crimson; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(35deg,
+                              transparent,
+                              rgba(153,0,0,0.35),
+                              transparent,
+                              rgba(153,0,0,0.35)); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(35deg,
+                              transparent,
+                              rgba(153,0,0,0.35),
+                              transparent,
+                              rgba(153,0,0,0.35)); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(35deg,
+                              transparent,
+                              rgba(153,0,0,0.35),
+                              transparent,
+                              rgba(153,0,0,0.35)); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(35deg,
+                              transparent,
+                              rgba(153,0,0,0.35),
+                              transparent,
+                              rgba(153,0,0,0.35)); /* Standard syntax (must be last) */
 }
 /*
 .hidden {

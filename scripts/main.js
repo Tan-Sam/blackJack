@@ -1,4 +1,6 @@
-
+/********************
+  settings globally used.
+    ************************/
 var deck = [];
 //  bankers push last
 var playersArray = [];
@@ -20,23 +22,21 @@ function initGame(){
 
   //  init players
 
+  // var playerName = prompt("What is your name?");
   var player = new Player();
-  player.name = "sam james";
+  player.name = "Sam James";//playerName;
   player.purseSize = 1200;
 
   playersArray.push(player);
 
-
-
-
   var banker = new Player();
   banker.name = "banker";
   banker.purseSize = 3000;
+  // banker.hand = new Hand();
 
   playersArray.push(banker);
 
   player.nextPlayer = banker;
-
 
   // pop deck into players hand.
   initialCardsDrawForAllPlayers();
@@ -44,18 +44,22 @@ function initGame(){
   if (!banker.isHitBlackJack) {
       commenceGame();
   }
-
-  // draw 5 cards test
-  // var draws = 3;
-  // do {
-  //   player.draw();
-  // } while (--draws > 0);
 }
+
+
+function drawCardDisplayEvent(event){
+  drawCardAndDisplay(0);
+}
+
+
 
 function commenceGame(){
     // var currentPlayer = playersArray[i];
 
     playersArray[0].activateTurn();
+    var tDisplay =  displayArray[0];
+
+    tDisplay.addEventListener('click', drawCardDisplayEvent);
 
     document.addEventListener('keyup',  function(event){
       if (event.key === 'Escape') {
@@ -64,6 +68,9 @@ function commenceGame(){
         if (activePlayer.nextPlayer === null) {
             this.removeEventListener('keyup', arguments.callee);
             console.log('Turns completed. Removed event listener.');
+            console.log('Removing mouse click listener on div.');
+            tDisplay.removeEventListener('click', drawCardDisplayEvent);
+            console.log('Removing mouse click listener from  div.');
         }
       }
     });
@@ -82,16 +89,18 @@ function drawCardAndDisplay(playerIndex){
   var tPlayer = playersArray[playerIndex];
   var tPlayerDiv = displayArray[playerIndex];
 
-  tPlayer.drawCard();
+  var drawCardSuccess = tPlayer.drawCard();
 
-  var newDiv = document.createElement('div');
-  newDiv.classList.add('card');
+  if (drawCardSuccess) {
+    var newDiv = document.createElement('div');
+    newDiv.classList.add('card');
 
-  var newImg = document.createElement('img');
-  newImg.src = tPlayer.hand.lastCard().imgPath();
+    var newImg = document.createElement('img');
+    newImg.src = tPlayer.hand.lastCard().imgPath();
 
-  newDiv.appendChild(newImg);
-  tPlayerDiv.appendChild(newDiv);
+    newDiv.appendChild(newImg);
+    tPlayerDiv.appendChild(newDiv);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", ()=>{

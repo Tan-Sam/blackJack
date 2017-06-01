@@ -1,22 +1,19 @@
 function Player(){
+      this.hand =  new Hand(this);
+      this.nextPlayer = null;
+      this.isMyTurn = false;
+      this.isHitBlackJack = false;
+
+      //   also can be known as turn completed
+      this.isTurnCompleted = false;
+
+      this.cardPointsOverLimit = false;
+
   this.name;
-  this.hand =  new Hand(); //[];         // cards on hand
-  this.purseSize = 300;    //
+  // this.purseSize = 300;
 
-  // this.inGameStatus;
-
-  this.nextPlayer = null;
-
-  // this.playerToTheLeft = null;
-  // this.playerToTheRight = null;
   this.currentGameBetAmount;
-  this.isMyTurn = false;
-  this.isHitBlackJack = false;
 
-  //   also can be known as turn completed
-  this.isTurnCompleted = false;
-
-  this.cardPointsOverLimit = false;
 }
 
 Player.prototype.activateTurn = function(){
@@ -40,7 +37,7 @@ Player.prototype.setTurnCompleted = function(){
 }
 
 Player.prototype.drawCard = function(){
-  this.hand.drawCard();
+  return this.hand.drawCard();
 }
 
 Player.prototype.collectWinnings = function(){
