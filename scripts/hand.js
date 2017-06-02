@@ -1,6 +1,6 @@
 function Hand(parentObj) {
   this.cards = [];
-  this.parent = parentObj;
+  this.parent = parentObj;  // for raising alerts
 }
 
 Hand.prototype.drawCard = function() {
@@ -9,9 +9,9 @@ Hand.prototype.drawCard = function() {
   var cardValues = this.getCardsOnHandValue();
 
   if (cards < 3 ||
-      cardValues < 21) {
+      (cardValues < 21 && cards !== 5)) {
         this.cards.push(deck.pop());
-        result = true;
+        result = true;  // draw card success.
 
         var newCardLength = this.cards.length;
 
@@ -34,13 +34,14 @@ Hand.prototype.drawCard = function() {
   return result;
 }
 
+//  aces returned is a new array. Cannnot
+//  be use Array.prototype.indexOf() ?
 Hand.prototype.getACEs = function() {
   var aces = this.cards.filter((elem) => {
     return elem.isAce();
   });
   return (aces.length === 0) ? false : aces;
 }
-
 Hand.prototype.getNon_aces = function() {
   var nonAces = this.cards.filter((elem) => {
     return !elem.isAce();
@@ -52,24 +53,7 @@ Hand.prototype.lastCard = function() {
   return this.cards[this.cards.length - 1];
 }
 
-//  !!!!!!!!!!!!!!! need to think through logic !!!!!!!!!!!!!!!!!!!!
-Hand.prototype.checkBlackJack_delmodoemo_after_modify = function() {
-  var cardCounts = this.cards.length;
-
-  if (cardCounts === 2) {
-    this.checkFor_BlackJack();
-  } else if (cardCounts === 3) { // triple 7 check
-    this.evaluateTriple7();
-  } else if (cardCounts === 5) {
-    this.evaluate_5cards();
-  }
-
-  this.checkCardsOnHandValue();
-
-}
-
-//  tested ok. 1 win, multiple losses.
-//  !!!!!!!!  use new function getcardsOnHandValue to evaluate ???????????????
+//  tested ok.
 Hand.prototype.evaluate_5cards = function() {
   //   add up to see if more than 21
   // get all the ace cards. take them value as small as possible.
@@ -77,8 +61,9 @@ Hand.prototype.evaluate_5cards = function() {
   var totalValue = 0;
   var acesFound = this.getACEs();
 
-  //  acesFound returns false if non found. Array if found.
-  totalValue += acesFound.length; // each ace value is 1..
+  if (acesFound) {//  otherwise value would be Nan
+    totalValue += acesFound.length; // each ace value is 1..
+  }
 
   // add up all them non ace cards
   totalValue +=
@@ -118,13 +103,12 @@ Hand.prototype.evaluateTriple7 = function() {
 //    but there was 1 fluke, player had 1 Ace & 1 4.
 //      but the blackJack alert came out. kiv..
 Hand.prototype.checkFor_BlackJack = function() {
-
   var noOfCards = this.cards.length;
   if (noOfCards != 2) {
-    for (var i = 0; i < 10; i++) {
-      console.log('invalid cards on hand to check for blackjack!!:\n '+
-                   'Cards on hand: ' + noOfCards);
-    }
+    var warnings = 5;
+    var warningMsg = 'invalid cards on hand to check for blackjack!!:\n '+
+                     'Cards on hand: ' + noOfCards;
+    do { console.log(warningMsg); }while(warnings-- >0)
     return;
   }
 
@@ -145,6 +129,9 @@ Hand.prototype.checkFor_BlackJack = function() {
   }
 }
 
+//  can reduce code, by using ternary in ace(s) value determination.
+//  but should I do that? I've commented the old code.
+//  Delete them when things are stable.
 Hand.prototype.getCardsOnHandValue = function() {
   if (this.cards.length === 0) {
     return 0;
@@ -166,52 +153,60 @@ Hand.prototype.getCardsOnHandValue = function() {
     switch (acesFound.length) {
       case 1:
         {
-          if (nonACEsValue <= 10) {
-            return acesFound[0].getNumericalValue()[1] + nonACEsValue; // 11 + nonACEsValue
-          } else {
-            return acesFound[0].getNumericalValue()[0] + nonACEsValue; // 1 + nonACEsValue
-          }
+           return (nonACEsValue <= 10) ? (11 + nonACEsValue):(1 + nonACEsValue);{
+             // if (nonACEsValue <= 10) {
+             //   return acesFound[0].getNumericalValue()[1] + nonACEsValue; // 11 + nonACEsValue
+             // } else {
+             //   return acesFound[0].getNumericalValue()[0] + nonACEsValue; // 1 + nonACEsValue
+             // }
+           }
         }
       case 2:
         {
-          if (nonACEsValue <= 9) {
-            return acesFound[0].getNumericalValue()[1] + // 11 +
-              acesFound[1].getNumericalValue()[0] + // 01
-              nonACEsValue; //        12  + nonACEsValue
-          } else {
-            return acesFound[0].getNumericalValue()[0] + // 01 +
-              acesFound[1].getNumericalValue()[0] + // 01
-              nonACEsValue; //          2 + nonACEsValue
+          return (nonACEsValue <= 9) ? (12 + nonACEsValue):(2 + nonACEsValue);{
+            // if (nonACEsValue <= 9) {
+            //   return acesFound[0].getNumericalValue()[1] + // 11 +
+            //     acesFound[1].getNumericalValue()[0] + // 01
+            //     nonACEsValue; //        12  + nonACEsValue
+            // } else {
+            //   return acesFound[0].getNumericalValue()[0] + // 01 +
+            //     acesFound[1].getNumericalValue()[0] + // 01
+            //     nonACEsValue; //          2 + nonACEsValue
+            // }
           }
         }
       case 3:
         {
-          if (nonACEsValue <= 8) {
-            return acesFound[0].getNumericalValue()[1] + // 11 +
-              acesFound[1].getNumericalValue()[0] + // 01 +
-              acesFound[2].getNumericalValue()[0] + // 01
-              nonACEsValue; //          13  + nonACEsValue
-          } else {
-            return acesFound[0].getNumericalValue()[0] + // 01 +
-              acesFound[1].getNumericalValue()[0] + // 01 +
-              acesFound[2].getNumericalValue()[0] + // 01
-              nonACEsValue; //          3 + nonACEsValue
+          return (nonACEsValue <= 8) ? (13 + nonACEsValue):(3 + nonACEsValue);{
+            // if (nonACEsValue <= 8) {
+            //   return acesFound[0].getNumericalValue()[1] + // 11 +
+            //     acesFound[1].getNumericalValue()[0] + // 01 +
+            //     acesFound[2].getNumericalValue()[0] + // 01
+            //     nonACEsValue; //          13  + nonACEsValue
+            // } else {
+            //   return acesFound[0].getNumericalValue()[0] + // 01 +
+            //     acesFound[1].getNumericalValue()[0] + // 01 +
+            //     acesFound[2].getNumericalValue()[0] + // 01
+            //     nonACEsValue; //          3 + nonACEsValue
+            // }
           }
         }
-      case 3:
+      case 4:
         {
-          if (nonACEsValue <= 7) {
-            return acesFound[0].getNumericalValue()[1] + // 11 +
-              acesFound[1].getNumericalValue()[0] + // 01 +
-              acesFound[2].getNumericalValue()[0] + // 01 +
-              acesFound[2].getNumericalValue()[0] + // 01
-              nonACEsValue; //        14 + nonACEsValue
-          } else {
-            return acesFound[0].getNumericalValue()[0] + // 01 +
-              acesFound[1].getNumericalValue()[0] + // 01 +
-              acesFound[2].getNumericalValue()[0] + // 01 +
-              acesFound[2].getNumericalValue()[0] + // 01
-              nonACEsValue; //          4 + nonACEsValue
+          return (nonACEsValue <= 7) ? (14 + nonACEsValue):(4 + nonACEsValue);{
+            // if (nonACEsValue <= 7) {
+            //   return acesFound[0].getNumericalValue()[1] + // 11 +
+            //     acesFound[1].getNumericalValue()[0] + // 01 +
+            //     acesFound[2].getNumericalValue()[0] + // 01 +
+            //     acesFound[2].getNumericalValue()[0] + // 01
+            //     nonACEsValue; //        14 + nonACEsValue
+            // } else {
+            //   return acesFound[0].getNumericalValue()[0] + // 01 +
+            //     acesFound[1].getNumericalValue()[0] + // 01 +
+            //     acesFound[2].getNumericalValue()[0] + // 01 +
+            //     acesFound[2].getNumericalValue()[0] + // 01
+            //     nonACEsValue; //          4 + nonACEsValue
+            // }
           }
         }
       default:

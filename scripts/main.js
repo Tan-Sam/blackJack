@@ -21,19 +21,15 @@ function initGame(){
   initDeck();
 
   //  init players
-
   // var playerName = prompt("What is your name?");
   var player = new Player();
-  player.name = "Sam James";//playerName;
+  player.name = "Some player";//playerName;
   player.purseSize = 1200;
-
   playersArray.push(player);
 
   var banker = new Player();
   banker.name = "banker";
   banker.purseSize = 3000;
-  // banker.hand = new Hand();
-
   playersArray.push(banker);
 
   player.nextPlayer = banker;
@@ -41,25 +37,53 @@ function initGame(){
   // pop deck into players hand.
   initialCardsDrawForAllPlayers();
 
-  if (!banker.isHitBlackJack) {
+  if (!banker.isHitBlackJack ||
+      !player.isHitBlackJack) {
       commenceGame();
   }
 }
 
-
 function drawCardDisplayEvent(event){
-  drawCardAndDisplay(0);
+  var eventSource = event.target;
+  var eventSourceIndex = displayArray.indexOf(eventSource);
+
+  var sourcePlayer = playersArray[eventSourceIndex];
+
+  var playerIndex = playersArray.indexOf(sourcePlayer);
+
+  var isPlayersTurn = sourcePlayer.isMyTurn;
+  var isPlayersTurnCompleted = sourcePlayer.isTurnCompleted;
+
+  if (isPlayersTurn) {
+      drawCardAndDisplay(playerIndex);
+  }
+  else if (isPlayersTurnCompleted) {
+    console.log(sourcePlayer.name + '\'s turn is over. Please wait for next game.');
+  }
+  else {  //  haven't reach turn yet.
+    console.log('Not yet ' + sourcePlayer.name + '\'s turn. Please wait.');
+  }
 }
 
-
-
 function commenceGame(){
-    // var currentPlayer = playersArray[i];
 
-    playersArray[0].activateTurn();
-    var tDisplay =  displayArray[0];
 
-    tDisplay.addEventListener('click', drawCardDisplayEvent);
+    var spanText = document.createTextNode(playersArray[0].name);
+    var newSpan = document.createElement('span');
+    newSpan.appendChild(spanText);
+    newSpan.classList.add('playerSpan');
+    displayArray[0].insertAdjacentElement('afterend', newSpan);
+
+    spanText = document.createTextNode(playersArray[1].name);
+    newSpan = document.createElement('span');
+    newSpan.appendChild(spanText);
+    newSpan.classList.add('bankerSpan');
+
+    displayArray[1].insertAdjacentElement('beforebegin', newSpan);
+
+    for(var i=0; i<2; i++){
+        displayArray[i].addEventListener('click', drawCardDisplayEvent);
+    }
 
     document.addEventListener('keyup',  function(event){
       if (event.key === 'Escape') {
@@ -68,12 +92,17 @@ function commenceGame(){
         if (activePlayer.nextPlayer === null) {
             this.removeEventListener('keyup', arguments.callee);
             console.log('Turns completed. Removed event listener.');
+
             console.log('Removing mouse click listener on div.');
-            tDisplay.removeEventListener('click', drawCardDisplayEvent);
-            console.log('Removing mouse click listener from  div.');
+            for(var i=0; i<2; i++){
+                displayArray[i].removeEventListener('click', drawCardDisplayEvent);
+            }
+            console.log('Removed mouse click listener from  div.');
         }
       }
     });
+
+    setTimeout(playersArray[0].activateTurn(), 250);
 }
 
 function initialCardsDrawForAllPlayers(){

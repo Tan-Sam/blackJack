@@ -1,8 +1,12 @@
-.wrapper{
-  /*border: 1px solid red;*/
-  /*background-color: red;*/
-  /*display: inline-block;*/
+span {
+    font-size: 35px;
+    /*text-align: center;*/
+    margin-left: 40%;
+    color: rgba(255,255,255, 0.4);
+}
 
+span.activePlayer {
+  color: white;
 }
 
 body {

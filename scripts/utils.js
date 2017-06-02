@@ -14,7 +14,8 @@ Array.prototype.cut = function(itemsToSliceFromTop) {
   return this.splice(itemsToSliceFromTop).concat(this);
 }
 
-
+//  seems to work. tested few rounds.
+//  return for cancelling callbacks.
 function defaultAlertCaller(message){
   setTimeout(()=>{
     alert(message);
