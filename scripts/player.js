@@ -2,7 +2,7 @@ function Player() {
   this.hand = new Hand(this);
   this.nextPlayer = null;
   this.isMyTurn = false;
-  this.isHitBlackJack = false;
+
 
   //   also can be known as turn completed
   this.isTurnCompleted = false;
@@ -14,6 +14,11 @@ function Player() {
 
   this.currentGameBetAmount;
 }
+
+// Player.prototype.isHitBlackJack = function(){
+//   return this.hand.isHitBlackJack;
+// }
+
 
 Player.prototype.getCardsOnHandValue = function(){
   return this.hand.getCardsOnHandValue();
@@ -48,6 +53,9 @@ Player.prototype.setTurnCompleted = function() {
   else {
     document.querySelector('.bankerSpan').classList.toggle('activePlayer');
   }
+
+  this.cardPointsOverLimit = this.hand.getCardsOnHandValue() > 21;
+
 
   console.log(this.name + '\'s turn completed.');
   if (this.nextPlayer !== null) {
@@ -102,12 +110,8 @@ Player.prototype.setTurnCompleted = function() {
                          player1.name + '\s points: ' + player1.getCardsOnHandValue());
     }
 
+    // setTimeout(location.reload(),2100);
   }
-
-
-
-
-
 }
 
 Player.prototype.drawCard = function() {
