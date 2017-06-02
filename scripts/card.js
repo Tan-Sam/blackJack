@@ -1,5 +1,5 @@
-https://github.com/Tan-Sam/Vector-Playing-Cards/tree/master/cards-svg
-https://raw.githubusercontent.com/Tan-Sam/Vector-Playing-Cards/master/cards-svg/10C.svg
+// https://github.com/Tan-Sam/Vector-Playing-Cards/tree/master/cards-svg
+// https://raw.githubusercontent.com/Tan-Sam/Vector-Playing-Cards/master/cards-svg/10C.svg
 
 const cardTemplateName =
 "https://raw.githubusercontent.com/Tan-Sam/Vector-Playing-Cards/master/cards-svg/{{cardName}}.svg";
