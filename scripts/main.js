@@ -89,6 +89,7 @@ function commenceGame(){
       if (event.key === 'Escape') {
         var activePlayer = playersArray.find((elem)=>{ return elem.isMyTurn; });
         activePlayer.setTurnCompleted();
+
         if (activePlayer.nextPlayer === null) {
             this.removeEventListener('keyup', arguments.callee);
             console.log('Turns completed. Removed event listener.');
@@ -98,6 +99,25 @@ function commenceGame(){
                 displayArray[i].removeEventListener('click', drawCardDisplayEvent);
             }
             console.log('Removed mouse click listener from  div.');
+
+            console.log('Adding dimmer.');
+            var dimmer = document.createElement('div');
+            dimmer.setAttribute('id','dimmer');
+            document.querySelector('body').insertAdjacentElement('afterbegin',dimmer);
+
+
+
+            // var spanText = document.createTextNode('End');
+            // spanText.classList.add('endSpan');
+
+            var endSpan = document.createElement('span');
+            endSpan.classList.add('endSpan');
+            endSpan.innerText = "End";
+            dimmer.appendChild(endSpan);
+
+            dimmer.appendChild(endSpan);
+
+            console.log('Dimmer added.');
         }
       }
     });
