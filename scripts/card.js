@@ -1,4 +1,4 @@
-const cardTemplateName = "../Vector-Playing-Cards/cards-svg/{{cardName}}.svg";
+const cardTemplateName = "/Vector-Playing-Cards/cards-svg/{{cardName}}.svg";
 const cardNameReplacer = /{{cardName}}/;
 
 function Card(index, cardType, cardSymbol) {
