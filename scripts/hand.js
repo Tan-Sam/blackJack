@@ -1,6 +1,7 @@
 function Hand(parentObj) {
   this.cards = [];
   this.parent = parentObj;  // for raising alerts
+  this.pointsOverLimit = false;
 }
 
 Hand.prototype.drawCard = function() {
@@ -31,6 +32,9 @@ Hand.prototype.drawCard = function() {
   else if (cardValues > 21) {
     alert('Already bomb:\t' + cardValues + ' points.');
   }
+
+  this.pointsOverLimit = this.getCardsOnHandValue() > 21;
+  
   return result;
 }
 

@@ -100,12 +100,13 @@ function commenceGame(){
             }
             console.log('Removed mouse click listener from  div.');
 
+
+
+
             console.log('Adding dimmer.');
             var dimmer = document.createElement('div');
             dimmer.setAttribute('id','dimmer');
             document.querySelector('body').insertAdjacentElement('afterbegin',dimmer);
-
-
 
             // var spanText = document.createTextNode('End');
             // spanText.classList.add('endSpan');
