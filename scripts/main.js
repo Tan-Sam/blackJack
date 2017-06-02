@@ -1,3 +1,7 @@
+var player1wins = false;
+var player2wins = false;
+var playersDraw = false;
+
 /********************
   settings globally used.
     ************************/
@@ -36,22 +40,26 @@ function initGame() {
   // pop deck into players hand.
   initialCardsDrawForAllPlayers();
 
-  if (!banker.hand.checkFor_BlackJack() &&
-    !player.hand.checkFor_BlackJack()) {
+  if (!banker.hand.isHitBlackJack &&
+    !player.hand.isHitBlackJack) {
     commenceGame();
-  } else if (banker.hand.checkFor_BlackJack() &&
-    player.hand.checkFor_BlackJack()) {
-    callDimmer();
+
+  } else if (banker.hand.isHitBlackJack &&
+    player.hand.isHitBlackJack) {
+    callDimmer(3);
     defaultAlertCaller('Game draw. All both players black jack');
-  } else if (banker.hand.checkFor_BlackJack() &&
-    !player.hand.checkFor_BlackJack()) {
-    callDimmer();
+
+  } else if (banker.hand.isHitBlackJack &&
+    !player.hand.isHitBlackJack) {
+    callDimmer(2);
     defaultAlertCaller(playersArray[1].name + ' wins. Black Jack.\n');
+
   }
-  else if (!banker.hand.checkFor_BlackJack() &&
-  player.hand.checkFor_BlackJack()) {
-  callDimmer();
+  else if (!banker.hand.isHitBlackJack &&
+  player.hand.isHitBlackJack) {
+  callDimmer(1);
   defaultAlertCaller(playersArray[0].name + ' wins. Black Jack.\n');
+
 }
 }
 
@@ -61,9 +69,9 @@ function drawCardDisplayEvent(event) {
 
   var sourcePlayer = playersArray[eventSourceIndex];
 
-  if (sourcePlayer.hand.checkFor_BlackJack()) {
+  if (sourcePlayer.hand.isHitBlackJack) {
     if (sourcePlayer.nextPlayer === null) {
-        callDimmer();
+        callDimmer(2);
         return;
     }
 
@@ -128,17 +136,57 @@ function commenceGame() {
   setTimeout(playersArray[0].activateTurn(), 250);
 }
 
-function callDimmer() {
+function callDimmer(status) {
+
+
+
   console.log('Adding dimmer.');
   var dimmer = document.createElement('div');
   dimmer.setAttribute('id', 'dimmer');
   document.querySelector('body').insertAdjacentElement('afterbegin', dimmer);
   var endSpan = document.createElement('span');
   endSpan.classList.add('endSpan');
+
   endSpan.innerText = "End";
-  dimmer.appendChild(endSpan);
+
+  var m1 = playersArray[0].name + " wins";
+  var m2 = playersArray[1].name + " wins";
+  var m3 = "draw";
+
 
   dimmer.appendChild(endSpan);
+  // dimmer.appendChild(endSpan);
+
+  var finmsg;
+  if (playersDraw) {
+    finmsg = m3;
+  }
+  else if (player1wins) {
+    finmsg = m1;
+  }
+  else if (player2wins) {
+    finmsg = m2;
+  }
+
+  // switch (status) {
+  //   case 1: finmsg = m1; break;
+  //   case 2: finmsg = m2; break;
+  //   case 3: finmsg = m3; break;
+  //   default:
+  //     break;
+  // }
+
+  var someTxt = document.createTextNode(finmsg);
+
+  var sp2 = document.createElement('span');
+  sp2.appendChild(someTxt);
+  sp2.classList.add('xx2');
+
+  var sd = document.createElement('div');
+  sd.appendChild(sp2);
+
+  dimmer.appendChild(sd);
+
 
   console.log('Dimmer added.');
 }

@@ -2,7 +2,7 @@ function Hand(parentObj) {
   this.cards = [];
   this.parent = parentObj;  // for raising alerts
   this.pointsOverLimit = false;
-  // this.isHitBlackJack = false;
+  this.isHitBlackJack = false;
 }
 
 Hand.prototype.drawCard = function() {

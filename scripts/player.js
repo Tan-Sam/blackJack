@@ -78,6 +78,8 @@ Player.prototype.setTurnCompleted = function() {
       defaultAlertCaller('Game draw. All Players over points.\n\n' +
                           player2.name + '\s points: ' + player2.getCardsOnHandValue()+'\n'+
                           player1.name + '\s points: ' + player1.getCardsOnHandValue());
+
+                          playersDraw = true;
     }
     else if (!player1_gameOut &&
              !player2_gameOut) {
@@ -85,11 +87,15 @@ Player.prototype.setTurnCompleted = function() {
         defaultAlertCaller(player1.name + ' wins.\n\n' +
                             player2.name + '\s points: ' + player2.getCardsOnHandValue()+'\n'+
                             player1.name + '\s points: ' + player1.getCardsOnHandValue());
+
+                            player1wins = true;
       }
       else if (player1gamePoints < player2gamePoints) {
         defaultAlertCaller(player2.name + ' wins.\n\n' +
                             player2.name + '\s points: ' + player2.getCardsOnHandValue()+'\n'+
                             player1.name + '\s points: ' + player1.getCardsOnHandValue());
+
+                            player2wins = true;
       }
       else {
         defaultAlertCaller('Game draw. Players have same points.\n\n' +
@@ -102,12 +108,16 @@ Player.prototype.setTurnCompleted = function() {
                          player2.name + ' over points.\n\n' +
                          player2.name + '\s points: ' + player2.getCardsOnHandValue()+'\n'+
                          player1.name + '\s points: ' + player1.getCardsOnHandValue());
+
+                         player1wins = true;
     }
     else if (player1_gameOut && !player2_gameOut) {
       defaultAlertCaller(player2.name + ' wins.\n' +
                          player1.name + ' over points.\n\n' +
                          player2.name + '\s points: ' + player2.getCardsOnHandValue()+'\n'+
                          player1.name + '\s points: ' + player1.getCardsOnHandValue());
+
+                         player2wins = true;
     }
 
     // setTimeout(location.reload(),2100);
