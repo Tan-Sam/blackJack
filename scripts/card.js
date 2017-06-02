@@ -6,7 +6,7 @@
 
 // const cardTemplateName = "/Vector-Playing-Cards/cards-svg/{{cardName}}.svg";
 
-const cardTemplateName = "/resources/{{cardName}}.svg";
+const cardTemplateName = "resources/{{cardName}}.svg";
 const cardNameReplacer = /{{cardName}}/;
 
 function Card(index, cardType, cardSymbol) {
