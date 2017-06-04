@@ -1,32 +1,22 @@
-// https://github.com/Tan-Sam/Vector-Playing-Cards/tree/master/cards-svg
-// https://raw.githubusercontent.com/Tan-Sam/Vector-Playing-Cards/master/cards-svg/10C.svg
-
-// const cardTemplateName =
-// "https://raw.githubusercontent.com/Tan-Sam/Vector-Playing-Cards/master/cards-svg/{{cardName}}.svg";
-
-// const cardTemplateName = "/Vector-Playing-Cards/cards-svg/{{cardName}}.svg";
-
 const cardTemplateName = "resources/{{cardName}}.svg";
 const cardNameReplacer = /{{cardName}}/;
 
 function Card(index, cardType, cardSymbol) {
-  // default value of cards. e.g. AceOfSpade -eq 0, AceOfHearts -eq 1, KingofDiamonds -eq 51..
+  //	default value of cards. e.g.
+  //	Ace of ♠ -eq 0,
+  //	king of ♦, KingofDiamonds -eq 51..
   this.defaultCardIndex = index;
   this.cardName = cardType + ' of ' + cardSymbol;
 
-  //  position in deck. e.g. '0' -eq bottom of deck. '51' -eq top of deck
-  // this.deckIndex = index;    unused.
+  this.cardType = cardType; //  Ace,1,2,3,4,5.. --> King
 
-  //  Ace --> King
-  this.cardType = cardType;
-
-  //      ♠ ♥ ♣ ♦
-  this.cardSymbol = cardSymbol;
+  this.cardSymbol = cardSymbol; //  ♠ ♥ ♣ ♦
 }
 
 //    tested working
 Card.prototype.imgPath = function(){
-  return cardTemplateName.replace(cardNameReplacer, this.cardSVGname());
+  return cardTemplateName.replace(cardNameReplacer,
+                                  this.cardSVGname());
 }
 
 Card.prototype.print = function(){
@@ -72,11 +62,9 @@ Card.prototype.getNumericalValue = function() {
 
 // var symbolArray = ['♠','♥','♣','♦'];
 var symbolArray = ['spade', 'heart', 'club', 'diamond'];
-
 var faceCardsArray = ['Ace', 'Jack', 'Queen', 'King'];
 
 var numbersArray = [];
-
 function initNumbersArray() {
   for (var i = 2; i <= 10; i++) {
     numbersArray.push(i);
@@ -103,14 +91,16 @@ function initDeck() {
 //  tested working
 function pushArrayIntoDeck(arrToPush) {
   if (Array.isArray(arrToPush)) {
-    for (var i = 0; i < arrToPush.length; i++) {
-      for (var j = 0; j < symbolArray.length; j++) {
-        //                                               toString() because of SVG
-        var newCard = new Card(deck.length, arrToPush[i].toString(), symbolArray[j]);
+    for (var i = 0; i < arrToPush.length; i++) {		//	type	Ace,1,2,3,4,5.. --> King
+      for (var j = 0; j < symbolArray.length; j++) {	//	symbol	♠ ♥ ♣ ♦
+        var newCard = new Card(deck.length,
+        					   arrToPush[i].toString(),		//	toString() because of SVG
+        					   symbolArray[j]);
         deck.push(newCard);
       }
     }
   } else {
-    throw new Exception("Invalid array in pushArrayIntoDeck(sp) method.");
+    throw new Exception("Invalid type in pushArrayIntoDeck(sp) method: "+
+    					 typeof arrToPush);
   }
 }
