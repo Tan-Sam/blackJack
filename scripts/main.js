@@ -10,103 +10,49 @@ var deck = [];
 var playersArray = [];
 
 var displayArray = [
-  document.getElementsByClassName('playerDiv')[0],
-  document.getElementsByClassName('bankerDiv')[0],
+  document.getElementsByClassName('player')[0],
+  document.getElementsByClassName('banker')[0],
 ];
 
-//  indexing doesn't work.
-// var displayArray = {};
-// displayArray.playerDiv = document.getElementsByClassName('playerDiv')[0];
-// displayArray.bankerDiv = document.getElementsByClassName('bankerDiv')[0];
-
-function initGame() {
-
-  initDeck();
-
-  //  init players
-  // var playerName = prompt("What is your name?");
-  var player = new Player();
-  player.name = "Some player"; //playerName;
-  player.purseSize = 1200;
-  playersArray.push(player);
-
-  var banker = new Player();
-  banker.name = "banker";
-  banker.purseSize = 3000;
-  playersArray.push(banker);
-
-  player.nextPlayer = banker;
-
-  // pop deck into players hand.
-  initialCardsDrawForAllPlayers();
-
-  if (!banker.hand.isHitBlackJack &&
-    !player.hand.isHitBlackJack) {
-    commenceGame();
-
-  } else if (banker.hand.isHitBlackJack &&
-    player.hand.isHitBlackJack) {
-    callDimmer(3);
-    defaultAlertCaller('Game draw. All both players black jack');
-
-  } else if (banker.hand.isHitBlackJack &&
-    !player.hand.isHitBlackJack) {
-    callDimmer(2);
-    defaultAlertCaller(playersArray[1].name + ' wins. Black Jack.\n');
-
-  }
-  else if (!banker.hand.isHitBlackJack &&
-  player.hand.isHitBlackJack) {
-  callDimmer(1);
-  defaultAlertCaller(playersArray[0].name + ' wins. Black Jack.\n');
-
-}
-}
-
-function drawCardDisplayEvent(event) {
-  var eventSource = event.target;
-  var eventSourceIndex = displayArray.indexOf(eventSource);
-
-  var sourcePlayer = playersArray[eventSourceIndex];
-
-  if (sourcePlayer.hand.isHitBlackJack) {
-    if (sourcePlayer.nextPlayer === null) {
-        callDimmer(2);
-        return;
-    }
-
-
-  }
-
-  var playerIndex = playersArray.indexOf(sourcePlayer);
-
-  var isPlayersTurn = sourcePlayer.isMyTurn;
-  var isPlayersTurnCompleted = sourcePlayer.isTurnCompleted;
-
-  if (isPlayersTurn) {
-    drawCardAndDisplay(playerIndex);
-  } else if (isPlayersTurnCompleted) {
-    console.log(sourcePlayer.name + '\'s turn is over. Please wait for next game.');
-  } else { //  haven't reach turn yet.
-    console.log('Not yet ' + sourcePlayer.name + '\'s turn. Please wait.');
-  }
-}
+// function drawCardDisplayEvent(event) {
+//   var eventSource = event.target;
+//   var eventSourceIndex = displayArray.indexOf(eventSource);
+//
+//   var sourcePlayer = playersArray[eventSourceIndex];
+//
+//   if (sourcePlayer.hand.isHitBlackJack) {
+//     if (sourcePlayer.nextPlayer === null) {
+//         callDimmer(2);
+//         return;
+//     }
+//   }
+//
+//   var playerIndex = playersArray.indexOf(sourcePlayer);
+//
+//   var isPlayersTurn = sourcePlayer.isMyTurn;
+//   var isPlayersTurnCompleted = sourcePlayer.hasTurnCompleted;
+//
+//   if (isPlayersTurn) {
+//     drawCardAndDisplay(playerIndex);
+//   } else if (isPlayersTurnCompleted) {
+//     console.log(sourcePlayer.name + '\'s turn is over. Please wait for next game.');
+//   } else { //  haven't reach turn yet.
+//     console.log('Not yet ' + sourcePlayer.name + '\'s turn. Please wait.');
+//   }
+// }
 
 function commenceGame() {
-
-
-  var spanText = document.createTextNode(playersArray[0].name);
-  var newSpan = document.createElement('span');
-  newSpan.appendChild(spanText);
-  newSpan.classList.add('playerSpan');
-  displayArray[0].insertAdjacentElement('afterend', newSpan);
-
-  spanText = document.createTextNode(playersArray[1].name);
-  newSpan = document.createElement('span');
-  newSpan.appendChild(spanText);
-  newSpan.classList.add('bankerSpan');
-
-  displayArray[1].insertAdjacentElement('beforebegin', newSpan);
+  // var spanText = document.createTextNode(playersArray[0].name);
+  // var newSpan = document.createElement('span');
+  // newSpan.appendChild(spanText);
+  // newSpan.classList.add('playerSpan');
+  // displayArray[0].insertAdjacentElement('afterend', newSpan);
+  //
+  // spanText = document.createTextNode(playersArray[1].name);
+  // newSpan = document.createElement('span');
+  // newSpan.appendChild(spanText);
+  // newSpan.classList.add('bankerSpan');
+  // displayArray[1].insertAdjacentElement('beforebegin', newSpan);
 
   for (var i = 0; i < 2; i++) {
     displayArray[i].addEventListener('click', drawCardDisplayEvent);
@@ -136,10 +82,7 @@ function commenceGame() {
   setTimeout(playersArray[0].activateTurn(), 250);
 }
 
-function callDimmer(status) {
-
-
-
+function callDimmer() {
   console.log('Adding dimmer.');
   var dimmer = document.createElement('div');
   dimmer.setAttribute('id', 'dimmer');
@@ -168,14 +111,6 @@ function callDimmer(status) {
     finmsg = m2;
   }
 
-  // switch (status) {
-  //   case 1: finmsg = m1; break;
-  //   case 2: finmsg = m2; break;
-  //   case 3: finmsg = m3; break;
-  //   default:
-  //     break;
-  // }
-
   var someTxt = document.createTextNode(finmsg);
 
   var sp2 = document.createElement('span');
@@ -189,10 +124,16 @@ function callDimmer(status) {
 
 
   console.log('Dimmer added.');
+
+  setInterval(function(){ if(dimmer.visibility === 'hidden'){
+      dimmer.visibility = 'visible';
+  }
+  else {
+      dimmer.visibility = 'hidden';
+  }},3000);
 }
 
-function initialCardsDrawForAllPlayers() {
-  //  2 cards
+function initialCardsDrawForAllPlayers() {  //  2 cards
   for (var i = 0; i < 2; i++) { //  all players 1 card each
     for (var j = 0; j < playersArray.length; j++) {
       drawCardAndDisplay(j);
@@ -216,6 +157,12 @@ function drawCardAndDisplay(playerIndex) {
     newDiv.appendChild(newImg);
     tPlayerDiv.appendChild(newDiv);
   }
+}
+
+var game;
+function initGame(){
+  game = new Game();
+  game.initializeGame();
 }
 
 document.addEventListener("DOMContentLoaded", () => {

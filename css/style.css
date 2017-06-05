@@ -59,7 +59,7 @@ div.players {
   /*width: 95%*/
 }
 
-.bankerDiv {
+.banker {
 
   border-radius: 10px;
   background: red; /* For browsers that do not support gradients */
@@ -87,7 +87,7 @@ div.players {
   padding-bottom: 0.45%;
 }
 
-.playerDiv {
+.player {
 
   padding-top: 0.8%;
   padding-bottom: 0.45%;

@@ -1,9 +1,6 @@
-function Hand(parentObj)
+function Hand()
 {
     this.cards = [];
-    this.parent = parentObj; // for raising alerts
-    this.pointsMoreThan21 = false;
-    this.isHitBlackJack = false;
 }
 
 //  allow draw if cards on hand less than 5
@@ -24,7 +21,7 @@ Hand.prototype.drawCard = function()
 {
     if (this.checkIfCanDrawCard()) {
       this.cards.push(deck.pop());
-      return true;
+      return this.lastCard();
     }
 
     return false;
@@ -37,6 +34,7 @@ Hand.prototype.getACEs = function()
     var aces = this.cards.filter((elem) =>{ return elem.isAce(); });
     return (aces.length === 0) ? false : aces;
 }
+
 Hand.prototype.getNon_aces = function()
 {
     var nonAces = this.cards.filter((elem) =>{ return !elem.isAce(); });

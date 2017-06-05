@@ -1,4 +1,4 @@
-const cardTemplateName = "resources/{{cardName}}.svg";
+const cardTemplateName = "resources/cards/{{cardName}}.svg";
 const cardNameReplacer = /{{cardName}}/;
 
 function Card(index, cardType, cardSymbol) {
@@ -99,7 +99,8 @@ function pushArrayIntoDeck(arrToPush) {
         deck.push(newCard);
       }
     }
-  } else {
+  }
+  else {
     throw new Exception("Invalid type in pushArrayIntoDeck(sp) method: "+
     					 typeof arrToPush);
   }
