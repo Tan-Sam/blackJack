@@ -1,36 +1,35 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Black-Jack!</title>
-  <link rel="stylesheet"
-        type="text/css"
-        href="css/style.css"/>
-</head>
-<body>
-  <div class="wrapper">
-    <div>
-      <span>Banker</span>
-    </div>
-    <div class="banker">
-    </div>
-    <div class="player">
-    </div>
-    <div>
-      <span>Some Player</span>
-    </div>
-  </div>
+<html lang="en">
+  <head>
+    <title>Black-Jack!</title>
+    <link rel="stylesheet"
+          type="text/css"
+          href="css/style.css"/>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div>
+        <span>Banker</span>
+      </div>
+      <div class="banker"></div>
 
-  <!-- list files used chronogically.
-      E.g. if main.js uses player.js, list player.js above  main.js -->
+      <div class="player"></div>
+      <div>
+        <span>Some Player</span>
+      </div>
+    </div>
 
-  <script src="scripts/card.js"></script>
-  <script src="scripts/hand.js"></script>
-  <script src="scripts/player.js"></script>
+    <!-- list files used chronogically.
+        E.g. if main.js uses player.js, list player.js above  main.js -->
 
-  <script src="scripts/utils.js"></script>
+    <script src="scripts/card.js"></script>
+    <script src="scripts/hand.js"></script>
+    <script src="scripts/player.js"></script>
 
-  <script src="scripts/test.js"></script>
-  <script src="scripts/game.js"></script>
-  <script src="scripts/main.js"></script>
-</body>
+    <script src="scripts/utils.js"></script>
+
+    <script src="scripts/game.js"></script>
+    <script src="scripts/domHandler.js"></script>
+    <script src="scripts/main.js"></script>
+  </body>
 </html>

@@ -12,10 +12,7 @@ function Player(playerJsonObject) {
   this.displayDiv = null;
 }
 
-Player.prototype.hasHitBlackJack = function()
-{
-  return this.hand.checkBlackJack();
-}
+Player.prototype.blackJack = ()=>this.hand.checkBlackJack;
 
 
 Player.prototype.getCardsOnHandValue = function(){

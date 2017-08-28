@@ -10,53 +10,16 @@ var deck = [];
 var playersArray = [];
 
 var displayArray = [
-  document.getElementsByClassName('player')[0],
-  document.getElementsByClassName('banker')[0],
+  document.querySelector('.player'),
+  document.querySelector('.banker'),
 ];
 
-// function drawCardDisplayEvent(event) {
-//   var eventSource = event.target;
-//   var eventSourceIndex = displayArray.indexOf(eventSource);
-//
-//   var sourcePlayer = playersArray[eventSourceIndex];
-//
-//   if (sourcePlayer.hand.isHitBlackJack) {
-//     if (sourcePlayer.nextPlayer === null) {
-//         callDimmer(2);
-//         return;
-//     }
-//   }
-//
-//   var playerIndex = playersArray.indexOf(sourcePlayer);
-//
-//   var isPlayersTurn = sourcePlayer.isMyTurn;
-//   var isPlayersTurnCompleted = sourcePlayer.hasTurnCompleted;
-//
-//   if (isPlayersTurn) {
-//     drawCardAndDisplay(playerIndex);
-//   } else if (isPlayersTurnCompleted) {
-//     console.log(sourcePlayer.name + '\'s turn is over. Please wait for next game.');
-//   } else { //  haven't reach turn yet.
-//     console.log('Not yet ' + sourcePlayer.name + '\'s turn. Please wait.');
-//   }
-// }
-
 function commenceGame() {
-  // var spanText = document.createTextNode(playersArray[0].name);
-  // var newSpan = document.createElement('span');
-  // newSpan.appendChild(spanText);
-  // newSpan.classList.add('playerSpan');
-  // displayArray[0].insertAdjacentElement('afterend', newSpan);
-  //
-  // spanText = document.createTextNode(playersArray[1].name);
-  // newSpan = document.createElement('span');
-  // newSpan.appendChild(spanText);
-  // newSpan.classList.add('bankerSpan');
-  // displayArray[1].insertAdjacentElement('beforebegin', newSpan);
+debugger;
+  displayArray.forEach(el=>{
+    el.addEventListener('click', drawCardDisplayEvent);
+  })
 
-  for (var i = 0; i < 2; i++) {
-    displayArray[i].addEventListener('click', drawCardDisplayEvent);
-  }
 
   document.addEventListener('keyup', function(event) {
     if (event.key === 'Escape') {

@@ -8,9 +8,11 @@ function Card(index, cardType, cardSymbol) {
   this.defaultCardIndex = index;
   this.cardName = cardType + ' of ' + cardSymbol;
 
-  this.cardType = cardType; //  Ace,1,2,3,4,5.. --> King
+  //  Ace,1,2,3,4,5.. --> King
+  this.cardType = cardType;
 
-  this.cardSymbol = cardSymbol; //  ♠ ♥ ♣ ♦
+  //  ♠ ♥ ♣ ♦
+  this.cardSymbol = cardSymbol;
 }
 
 //    tested working
@@ -27,9 +29,8 @@ Card.prototype.isFaceCard = function() {
   return this.cardType.match(/[ajqk]/i); //  ace, jack, queen or king
 }
 
-Card.prototype.isAce = function() {
-  return this.cardType.match(/^a/i); //  a is at start of line
-}
+//  ^a is 'a' at start of line
+Card.prototype.isAce = () => this.cardType.match(/^a/i);
 
 Card.prototype.isNumeric = function() {
   return !this.isFaceCard();
@@ -37,9 +38,11 @@ Card.prototype.isNumeric = function() {
 
 // returns the name of card image(.svg)
 Card.prototype.cardSVGname = function() {
-  //  match numeric 1 or 2 digit(s) or AJQK.
-  return (this.cardType.match(/(\d{1,2}|[ajqk])/gi)[0] +
-    this.cardSymbol.substr(0, 1)).toUpperCase(); // sample 2H--> Two Of hearts
+  return (
+    //  match numeric 1 or 2 digit(s) or AJQK.
+    this.cardType.match(/(\d{1,2}|[ajqk])/gi)[0] +
+     // sample 2H--> Two Of hearts
+    this.cardSymbol.substr(0, 1)).toUpperCase();
 }
 
 const aceNumericValues = [1, 11];
@@ -84,24 +87,41 @@ function initDeck() {
   //  populate face cards.
   pushArrayIntoDeck(faceCardsArray.slice(1)); // slice(1) -eq omit Ace
 
-  deck = deck.shuffle();
+  deck = shuffleDeck(deck);
   // deck = deck.cut(4);
 }
 
+function shuffleDeck(deckArray){
+  let m = deckArray.length, i;
+  while (m) {
+    i = (Math.random() * m--) >>> 0;
+    [deckArray[m], deckArray[i]] = [deckArray[i], deckArray[m]];
+  }
+  return deckArray;
+}
+
+function cutDeck(deckArrayToCut, itemsToSliceFromTop) {
+  return deckArrayToCut.splice(itemsToSliceFromTop).concat(deckArrayToCut);
+}
+
+
 //  tested working
 function pushArrayIntoDeck(arrToPush) {
-  if (Array.isArray(arrToPush)) {
-    for (var i = 0; i < arrToPush.length; i++) {		//	type	Ace,1,2,3,4,5.. --> King
-      for (var j = 0; j < symbolArray.length; j++) {	//	symbol	♠ ♥ ♣ ♦
+  let validArray = Array.isArray(arrToPush);
+  if (validArray) {
+		//	type	Ace,1,2,3,4,5.. --> King
+    for (var i = 0; i < arrToPush.length; i++) {
+      //	symbol	♠ ♥ ♣ ♦
+      for (var j = 0; j < symbolArray.length; j++) {
         var newCard = new Card(deck.length,
-        					   arrToPush[i].toString(),		//	toString() because of SVG
-        					   symbolArray[j]);
+    					             arrToPush[i].toString(),		//	toString() because of SVG
+      					           symbolArray[j]);
         deck.push(newCard);
       }
     }
-  }
-  else {
-    throw new Exception("Invalid type in pushArrayIntoDeck(sp) method: "+
+  }else {
+    throw new Exception(
+      "Invalid array type as param in pushArrayIntoDeck(sp) method.\nType received: "+
     					 typeof arrToPush);
   }
 }
