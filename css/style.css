@@ -11,6 +11,8 @@
       padding-top: 404px;
 }
 
+
+
 .xx2{
   margin-left: 65%;
   margin-top: 5px;
@@ -44,15 +46,20 @@ span.activePlayer {
 
 body {
   /*background-image: url('../resources/background.png');*/
-  background: url('../resources/background.png');
+  background: url('../public/background.png');
   /*no-repeat*/
   /*background-size: cover;*/
 }
 
 .card {
-  display: inline-block;
+  /* display: inline-block;
+  background: url('../public/cards/cover.png') no-repeat; */
+  /* src: '..public/cards/cover.png'; */
+  /* margin: auto 1em; */
+}
 
-  margin: auto 1em;
+.card-show {
+
 }
 
 div.players {
