@@ -6,7 +6,7 @@
 function Game(){
     this.players = [];
     this.score = null;
-    this.deck = [];
+    this.deck = deck;
 }
 
 Game.prototype.commence = function(){

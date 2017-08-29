@@ -33,3 +33,20 @@ from the bottom functionality up. In the following order(high to low):
 4. game    
 5. hand
 6. card
+
+
+## javascript
+```js
+function createCard(cardIndex=-1, cardType='', cardSymbol='') {
+  return {    
+    name: `${cardType} of ${cardSymbol}`,
+    // works
+    imgPath: function(){ return this.name },
+
+    // doesn't
+    imgPath2: ()=>this.name ,
+    // doesn't
+    imgPath2: ()=>{ return this.name },
+  }  
+}
+```

@@ -52,8 +52,8 @@ body {
 }
 
 .card {
-  /* display: inline-block;
-  background: url('../public/cards/cover.png') no-repeat; */
+    /* display: inline-block;
+    background: url('../public/cards/cover.png') no-repeat; */
   /* src: '..public/cards/cover.png'; */
   /* margin: auto 1em; */
 }
