@@ -1,29 +1,65 @@
-function Hand(){
-    this.cards = [];
-}
+function hand(){
+    return {
+        cards: [],
+        canDrawCard: function(){
+            //  if cards on hand less than 5
+            //  & points < 21
+            //  & no blackJacks.
+            if (this.points() < 21 &&
+                this.cards.length < 5 &&
+                !this.checkBlackJack()) {
+              return true;
+            }
+            return false;
+        },
+        points: function(){
+            if (this.cards.length === 0)
+                return 0;
+        
+            var acesFound = this.getACEs();
+            var nonACEsFound = this.getNon_aces();
+            var nonACEsValue = 0;
+        
+            if (nonACEsFound){
+                nonACEsValue = nonACEsFound.reduce((accum, elem) =>{
+                    return accum + elem.getNumericalValue();
+                }, 0);
+            }
+        
+            if (!acesFound){
+                return nonACEsValue;
+            }else{ //  deduced based on excel layout. strategy to not exceed 21.
+                switch (acesFound.length){
+                    case 1: return (nonACEsValue <= 10) ? (11 + nonACEsValue) : (1 + nonACEsValue);
+                    case 2: return (nonACEsValue <= 9) ? (12 + nonACEsValue) : (2 + nonACEsValue);
+                    case 3: return (nonACEsValue <= 8) ? (13 + nonACEsValue) : (3 + nonACEsValue);
+                    case 4: return (nonACEsValue <= 7) ? (14 + nonACEsValue) : (4 + nonACEsValue);
+                    default:
+                        break;
+                }
+            }
+        },
+        blackJack: function(){            
+            let aceCards = this.getACEs();        
+            if (this.cards.length === 2) {
+              if (aceCards.length > 0) {
+                if (aceCards.length === 2 ||
+                    this.getCardsOnHandValue() === 21) {
+                  return true;
+                }
+              }
+            }
 
-//  allow draw if cards on hand less than 5
-//  & points < 21
-//  & no blackJacks.
-Hand.prototype.checkIfCanDrawCard = function (){
-  if (this.getCardsOnHandValue() < 21 &&
-      this.cards.length < 5 &&
-      !this.checkBlackJack()) {
-    return true;
-  }
-  return false;
-}
-
-Hand.prototype.drawCard = function(){
-    if (this.checkIfCanDrawCard()) {
-      this.cards.push(deck.pop());
-      return this.lastCard();
+            // no else. 
+            // deals with all levels of if nesting.
+            return false;
+        },
+        getACEs: function(){
+            return this.cards.filter(elem=> elem.isAce());
+        }
     }
-    return false;
 }
 
-//  aces returned is a new array. Cannnot
-//  be use Array.prototype.indexOf() ?
 Hand.prototype.getACEs = function(){
     var aces = this.cards.filter(elem=> elem.isAce());
     return (aces.length === 0) ? false : aces;
@@ -61,48 +97,4 @@ Hand.prototype.evaluateTriple7 = function(){
     }
 
     return false;
-}
-
-Hand.prototype.checkBlackJack = function(){
-    var noOfCards = this.cards.length;
-    var aceCardsFound = this.getACEs();
-
-    if (noOfCards === 2) {
-      if (aceCardsFound) {
-        if (aceCardsFound.length === 2 ||
-            this.getCardsOnHandValue() === 21) {
-          return true;
-        }
-      }
-    }
-
-    return false; //  no else. if inner if's fail, default false will return.
-}
-
-Hand.prototype.getCardsOnHandValue = function(){
-    if (this.cards.length === 0)
-        return 0;
-
-    var acesFound = this.getACEs();
-    var nonACEsFound = this.getNon_aces();
-    var nonACEsValue = 0;
-
-    if (nonACEsFound){
-        nonACEsValue = nonACEsFound.reduce((accum, elem) =>{
-            return accum + elem.getNumericalValue();
-        }, 0);
-    }
-
-    if (!acesFound){
-        return nonACEsValue;
-    }else{ //  deduced based on excel layout. strategy to not exceed 21.
-        switch (acesFound.length){
-            case 1: return (nonACEsValue <= 10) ? (11 + nonACEsValue) : (1 + nonACEsValue);
-            case 2: return (nonACEsValue <= 9) ? (12 + nonACEsValue) : (2 + nonACEsValue);
-            case 3: return (nonACEsValue <= 8) ? (13 + nonACEsValue) : (3 + nonACEsValue);
-            case 4: return (nonACEsValue <= 7) ? (14 + nonACEsValue) : (4 + nonACEsValue);
-            default:
-                break;
-        }
-    }
 }
