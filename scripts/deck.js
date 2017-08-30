@@ -10,6 +10,10 @@ function deck(){
                 this.cards.splice(0,this.cards.length);
             }
             // populate deck
+            // special note: 'this' as the 2nd param of the forEach (after function())
+            // passes 'this'from the outer scope (class instance) to
+            // the inner scope (forEach func() call).
+            // otherwise calling 'this' is calling the 'window'object.
             this.cardTypes.forEach(function(cardType) {
                 this.symbols.forEach(function(sym){
                     let newcard = card(this.cards.length, cardType, sym);
