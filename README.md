@@ -31,11 +31,12 @@ from the bottom functionality up. In the following order(high to low):
 2. domHandler
 3. player
 4. game    
-5. hand
-6. card
+5. hand ✓
+6. deck ✓
+7. card ✓
 
 
-## javascript
+## javascript class design
 ```js
 function createCard(cardIndex=-1, cardType='', cardSymbol='') {
   return {    
@@ -50,3 +51,10 @@ function createCard(cardIndex=-1, cardType='', cardSymbol='') {
   }  
 }
 ```
+I think with the advent of the traditional OO **class** implementation in es6,
+It should be used.  
+But without it, the cleanest way to write a class object I think would be it to be JSON like format (key/value).  
+As opposed to prototyping additional functions e.g.
+`Card.prototype.imgPath = function(){}`  
+Imagine this repeating for each function.
+Not `neat` in my opinion.

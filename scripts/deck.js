@@ -3,7 +3,7 @@ function deck(){
         cards: [],
         // ['♠','♥','♣','♦']
         symbols: ['spade ♠', 'heart ♥', 'club ♣', 'diamond ♦'],
-        cardTypes: ['Ace',2,3,4,5,6,7,8,9,10,'Jack','Queen','King'],
+        cardTypes: ['Ace',2,3,4,5,6,7,8,9,10,'Jack','Queen','King'].map(ct=>ct.toString()),
         init: function(){
             // clear deck if has cards
             if (this.cards.length > 0) {
@@ -20,11 +20,12 @@ function deck(){
                     this.cards.push(newcard);
                 }, this)
             }, this);
-            return true;
+            
+            // for function chaining.
+            return this;
         },
         print: function(){
             this.cards.forEach(card=>console.log(card.name))
-            return true
         },
         shuffle: function(){
             let cards = this.cards;
@@ -33,7 +34,7 @@ function deck(){
               i = (Math.random() * m--) >>> 0;
               [cards[m], cards[i]] = [cards[i], cards[m]];
             }
-            return true
+            return this
         },
         cut: function(cardsToSlice){            
             let cards = this.cards;            
