@@ -57,4 +57,5 @@ But without it, the cleanest way to write a class object I think would be it to 
 As opposed to prototyping additional functions e.g.
 `Card.prototype.imgPath = function(){}`  
 Imagine this repeating for each function.
-Not `neat` in my opinion.
+Not `neat` in my opinion.  
+Current task to refactor all class objects from the `prototype` way to the json format.
