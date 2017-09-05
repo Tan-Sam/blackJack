@@ -50,7 +50,7 @@ function hand(){
 
       // calculate non ace values first,
       // as they are non variable like ace.
-      if (nonACEsFound){
+      if (nonACEsFound.length > 0){
         nonAceValues = nonACEsFound.reduce((accum, elem) =>{
             return accum + elem.numericalValue();
         }, 0);
@@ -82,7 +82,7 @@ function hand(){
        let aceCards = this.getAces();
        if (aceCards.length > 0) {
         return (aceCards.length === 2 ||
-                this.getCardsOnHandValue() === 21)
+                this.points() === 21)
        }
      }
     },
