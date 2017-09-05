@@ -48,7 +48,7 @@ function deck(){
       // tr --> [6, 1, 2, 3, 4, 5]
       return true;
     },
-    draw: function(){
+    drawCard: function(){
       return this.cards.pop();
     }
   }
